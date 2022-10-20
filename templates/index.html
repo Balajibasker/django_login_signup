@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500&display=swap');
+
+* {
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+.full-screen-container {
+  background-image: url('https://cdn.arstechnica.net/wp-content/uploads/2022/06/machine-learning-reading-robot-its-a-cookbook.jpg');
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container {
+  background-color: hsla(201, 100%, 6%, 0.6);
+  padding: 50px 30px;
+  min-width: 400px;
+  width: 50%;
+  max-width: 600px;
+}
+
+.login-title {
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 40px;
+  font-size: 2.5em;
+  font-weight: normal;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  color: #fff;
+  font-weight: lighter;
+  font-size: 1.5em;
+  margin-bottom: 7px;
+}
+
+.input-group input {
+  font-size: 1.5em;
+  padding: 0.1em 0.25em;
+  background-color: hsla(201, 100%, 91%, 0.3);
+  border: 1px solid hsl(201, 100%, 6%);
+  outline: none;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: lighter;
+}
+
+.input-group input:focus {
+  border: 1px solid hsl(201, 100%, 50%);
+}
+
+.login-button {
+  padding: 10px 30px;
+  width: 100%;
+  border-radius: 5px;
+  background: hsla(201, 100%, 50%, 0.1);
+  border: 1px solid hsl(201, 100%, 50%);
+  outline: none;
+  font-size: 1.5em;
+  color: #fff;
+  font-weight: lighter;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: hsla(201, 100%, 50%, 0.3);
+}
+.input_class:hover {
+  background-color: hsla(0, 3%, 8%, 0.3);
+
+}
+.input:focus::placeholder {
+  color: transparent;
+}
+.login-button:focus {
+  background-color: hsla(201, 100%, 50%, 0.5);
+}
+
+</style>
+<body>
+    <div class="full-screen-container">
+      <div class="login-container" id="login_signin">
+        <h3 class="login-title">Login</h3>
+ 
+        <form action ='/signin' method ='POST' id ="login_form" autocomplete="off" >
+          
+          <div class="input-group">
+            <label>Username</label>
+            <input type="name" placeholder="Username" name='uname' class='input_class' Required/>
+          </div>
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" placeholder="Password" name="password" class='input_class' Required/>
+          </div>
+          <button type="submit" class="login-button">Sign In</button>
+          <p class="signin">
+            <span style="color:#fff;font-weight: lighter">Don't have account ?</span><a href="#" onclick="toggleForm();">
+              
+                <a href="#" onclick="toggleForm1();"><span style="color:rgb(235, 132, 132);font-weight: lighter">Sign Up</span>
+            </a>
+          </p>
+          
+        </form>
+      </div>
+      <div class="login-container" id="login_signup" style="display:none;">
+        <h3 class="login-title">SignUp</h3>
+        <!--
+        <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+          <strong></strong> 
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        -->
+        <form action ='/signup' method ='POST' id ="signup_form"autocomplete="off">
+          
+          <div class="input-group">
+            <label>Username</label>
+            <input type="name"placeholder="Username" class='input_class' name="uname" id='username' required />
+            
+            <span id="user_err" style="display: none; color: red;"></span>
+          </div>
+          <div class="input-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Email" class='input_class' id ='em' required/>
+            <span id="email_err" style="display: none; color: red;"></span>
+          </div>
+          <div class="input-group">
+            <label>Password</label>
+            <input type="password" name='pass1' placeholder="Password"class='input_class' id="p1" required />
+            <span id="pass_err1" style="display: none; color: red;"></span>
+          </div>
+          <div class="input-group">
+            <label>Confirm Password</label>
+            <input type="password" name='pass2' placeholder="Password"class='input_class' id='p2' required />
+            <span id="pass_err2" style="display: none; color: red;"></span>
+          </div>
+          <input type="submit" id="btn" class="login-button" onclick='validate(event)' value="Sign up">
+          <!--<input type="submit" value = 'signup'>-->
+          <p class="signup">
+            
+            <span style="color:#fff;font-weight: lighter">Already have an account ?</span>
+
+            <a href="#" onclick="toggleForm();"> <span style="color:rgb(235, 132, 132);font-weight: lighter">Sign In</span> </a>
+          </p>
+          
+        </form>
+      </div>
+    </div>
+  </body>
+  <script>
+    us=''
+    em=''
+    ps1=''
+    ps2=''
+    ps12=''
+
+
+          function toggleForm1() {
+
+        document.getElementById('login_signin').style.display = 'none'
+
+        document.getElementById('login_signup').style.display = 'block'
+          }
+
+        function toggleForm() {
+
+document.getElementById('login_signup').style.display = 'none'
+
+document.getElementById('login_signin').style.display = 'block'
+  }
+      function validate(event){
+        alert('worked');
+        //event.preventDefault()
+
+        debugger;
+        var username=document.getElementById("username").value;
+        var email=document.getElementById("em").value;
+        var pass1=document.getElementById("p1").value;
+        var pass2=document.getElementById("p2").value;
+if (username=='')
+{
+  document.getElementById("user_err").innerHTML = "username is necessary";
+  document.getElementById("user_err").style.color='red';
+  document.getElementById("user_err").style.display='block';
+  document.getElementById("username").style.borderColor = "red";
+ 
+}
+else{
+  document.getElementById("username").style.borderColor = "green";
+  us='True'
+  
+}
+
+
+var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+if(!email.match(mailformat))
+  {
+    document.getElementById("email_err").innerHTML = "invalid_email";
+    document.getElementById("email_err").style.display='block';
+  document.getElementById("email_err").style.color='red';
+  document.getElementById("em").style.borderColor = "red";
+  }
+  else{
+  document.getElementById("em").style.borderColor = "green";
+  em='True'
+}
+  if (pass1=='')
+{
+  document.getElementById("pass_err1").innerHTML = "password could not be empty";
+  document.getElementById("pass_err1").style.display='block';
+  document.getElementById("pass_err1").style.color='red';
+  document.getElementById("p1").style.borderColor = "red";
+  
+}
+else{
+  document.getElementById("p1").style.borderColor = "green";
+  ps1='True'
+}
+if (pass2=='')
+{
+  document.getElementById("pass_err2").innerHTML = "password could not be empty";
+  document.getElementById("pass_err2").style.display='block';
+  document.getElementById("pass_err2").style.color='red';
+  document.getElementById("p2").style.borderColor = "red";
+  
+}
+else{
+  document.getElementById("p2").style.borderColor = "green";
+  ps2='True'
+}
+if (pass1 !='' && pass2 !='' && pass1 != pass2)
+{
+  document.getElementById("pass_err1").innerHTML = "password must be same";
+  document.getElementById("pass_err1").style.display='block';
+  document.getElementById("pass_err1").style.color='red';
+  document.getElementById("p1").style.borderColor = "red";
+  document.getElementById("pass_err2").innerHTML = "password must be same";
+  document.getElementById("pass_err2").style.display='block';
+  document.getElementById("pass_err2").style.color='red';
+  document.getElementById("p2").style.borderColor = "red";
+  
+}
+else{
+  document.getElementById("p1").style.borderColor = "green";
+  document.getElementById("p2").style.borderColor = "green";
+  ps12='True'
+  
+}
+
+           // jQuery code to show the working of this method
+            debugger;
+
+            if (us=='True' && em=='True' && ps1 =='True'&& ps2 =='True'&& ps12 =='True')
+            {
+            $('#signup_form').submit();
+            {
+             alert('successfully registered please login!...')
+            }
+          }else{
+            alert('fill the requirements!...')
+          }
+}
+
+  </script>
+</html>
